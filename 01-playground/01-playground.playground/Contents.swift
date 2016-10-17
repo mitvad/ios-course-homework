@@ -1,16 +1,21 @@
 import Foundation
 
 class DiaryRecord{
-    private let dateCreated: Date
-    
+    let dateCreated: Date
     var title: String?
-    var description: String?
+    var text: String?
     var tags: Set<String>?
     
-    init(title: String? = nil, description: String? = nil, tags: Set<String>? = nil) {
-        self.dateCreated = Date()
+    init(dateCreated: Date? = nil, title: String? = nil, text: String? = nil, tags: Set<String>? = nil) {
+        if let dateCreated = dateCreated{
+            self.dateCreated = dateCreated
+        }
+        else{
+            self.dateCreated = Date()
+        }
+        
         self.title = title
-        self.description = description
+        self.text = text
         self.tags = tags
     }
     
@@ -20,7 +25,7 @@ class DiaryRecord{
         result += getDateCreatedString()
         result += getString(fromOptionalStringProperty: title)
         result += getTagsString()
-        result += getString(fromOptionalStringProperty: description)
+        result += getString(fromOptionalStringProperty: text)
         
         return result
     }
@@ -28,9 +33,31 @@ class DiaryRecord{
     /* Utility methods */
     
     private func getDateCreatedString() -> String{
+        let calendar = Calendar.current
         let dateFormater = DateFormatter()
-        dateFormater.dateStyle = .medium
-        dateFormater.timeStyle = .none
+        
+        if calendar.isDateInToday(dateCreated){
+            dateFormater.dateStyle = .none
+            dateFormater.timeStyle = .short
+        }
+        else if calendar.isDateInYesterday(dateCreated){
+            dateFormater.dateStyle = .medium
+            dateFormater.timeStyle = .none
+            dateFormater.doesRelativeDateFormatting = true
+        }
+        else{
+            let dateWeekAgo = Date(timeIntervalSinceNow: -(3600 * 24 * 7))
+            
+            if dateCreated > calendar.startOfDay(for: dateWeekAgo) {
+                let weekday = calendar.component(.weekday, from: dateCreated)
+                
+                return dateFormater.weekdaySymbols[weekday - 1] + "\n"
+            }
+            else{
+                dateFormater.dateStyle = .medium
+                dateFormater.timeStyle = .none
+            }
+        }
         
         return dateFormater.string(from: dateCreated) + "\n"
     }
@@ -42,7 +69,7 @@ class DiaryRecord{
                 var result = ""
                 
                 for tag in tags{
-                    result += "[\(tag)]"
+                    result += "[\(tag)] "
                 }
                 
                 result += "\n"
@@ -54,32 +81,48 @@ class DiaryRecord{
         return ""
     }
     
-    private func getString(fromOptionalStringProperty property: String?) -> String{
-        if let property = property{
-            return property + "\n"
+    private func getString(fromOptionalStringProperty stringProperty: String?) -> String{
+        if let stringProperty = stringProperty{
+            return stringProperty + "\n"
         }
         
         return ""
     }
 }
 
-let diaryRecord1 = DiaryRecord()
-print(diaryRecord1.fullDescription())
+extension DiaryRecord: CustomStringConvertible{
+    var description: String{
+        return fullDescription()
+    }
+}
 
-let diaryRecord2 = DiaryRecord(title: "Only title")
-print(diaryRecord2.fullDescription())
+// Testing section
 
-let diaryRecord3 = DiaryRecord(description: "Only description")
-print(diaryRecord3.fullDescription())
+let timeIntervalDay: TimeInterval = 3600 * 24
+let timeIntervalTwoDays: TimeInterval = timeIntervalDay * 2
+let timeIntervalThreeDays: TimeInterval = timeIntervalDay * 3
+let timeIntervalWeek: TimeInterval = timeIntervalDay * 7
+let timeIntervalTwoWeeks: TimeInterval = timeIntervalWeek * 2
 
-let diaryRecord4 = DiaryRecord(title: "Title", description: "And description")
-print(diaryRecord4.fullDescription())
+let dateNow = Date()
+let dateYesterday = Date(timeIntervalSinceNow: -timeIntervalDay)
+let dateTwoDaysAgo = Date(timeIntervalSinceNow: -timeIntervalTwoDays)
+let dateThreeDaysAgo = Date(timeIntervalSinceNow: -timeIntervalThreeDays)
+let dateWeekAgo = Date(timeIntervalSinceNow: -timeIntervalWeek)
+let dateTwoWeeksAgo = Date(timeIntervalSinceNow: -timeIntervalTwoWeeks)
 
-let diaryRecord5 = DiaryRecord(tags: ["only", "tags"])
-print(diaryRecord5.fullDescription())
+let diaryRecord1 = DiaryRecord(dateCreated: dateNow)
+let diaryRecord2 = DiaryRecord(dateCreated: dateTwoWeeksAgo, title: "Only title")
+let diaryRecord3 = DiaryRecord(dateCreated: dateWeekAgo, text: "Only description")
+let diaryRecord4 = DiaryRecord(dateCreated: dateTwoDaysAgo, title: "Title", text: "And description")
+let diaryRecord5 = DiaryRecord(dateCreated: dateYesterday, tags: ["only", "tags"])
+let diaryRecord6 = DiaryRecord(dateCreated: dateThreeDaysAgo, title: "Title", text: "Description", tags: ["and", "tags"])
 
-let diaryRecord6 = DiaryRecord(title: "Title", description: "Description", tags: ["and", "tags"])
-print(diaryRecord6.fullDescription())
+var diaryRecords = [diaryRecord1, diaryRecord2, diaryRecord3, diaryRecord4, diaryRecord5, diaryRecord6]
+diaryRecords.sort{$0.dateCreated > $1.dateCreated}
 
+for diaryRecord in diaryRecords{
+    print(diaryRecord);
+}
 
 
