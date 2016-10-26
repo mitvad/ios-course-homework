@@ -21,10 +21,7 @@ class EditDiaryRecordViewController: UIViewController {
         
         titleText.text = diaryRecord.getTitle()
         descriptionText.text = diaryRecord.getDescription()
-        
-        if let weatherIndex = diaryRecord.weather?.rawValue{
-            weather.selectedSegmentIndex = weatherIndex
-        }
+        weather.selectedSegmentIndex = diaryRecord.getWeatherIndex()
         
         self.title = diaryRecord.getDateCreated()
     }
@@ -32,7 +29,8 @@ class EditDiaryRecordViewController: UIViewController {
     override func viewWillDisappear(_ animated: Bool) {
         diaryRecord.titleText = titleText.text
         diaryRecord.descriptionText = descriptionText.text
-        diaryRecord.weather = Weather(rawValue: weather.selectedSegmentIndex)
+        diaryRecord.weather = Int16(weather.selectedSegmentIndex)
+        CoreDataManager.instance.saveContext()
     }
 
 }

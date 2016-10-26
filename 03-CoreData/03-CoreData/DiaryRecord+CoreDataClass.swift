@@ -1,39 +1,21 @@
 //
-//  DiaryRecord.swift
-//  02-Storyboards
+//  DiaryRecord+CoreDataClass.swift
+//  03-CoreData
 //
-//  Created by Vadym on 1910//16.
+//  Created by Vadym on 2610//16.
 //  Copyright © 2016 Vadym Mitin. All rights reserved.
 //
 
 import Foundation
+import CoreData
 
-enum Weather: Int{
-    case sun = 0
-    case cloud = 1
-    case rain = 2
-    case storm = 3
-    case snow = 4
-}
 
-class DiaryRecord{
-    
-    let dateCreated: Date
-    var titleText: String?
-    var descriptionText: String?
-    var weather: Weather?
-    
-    init(dateCreated: Date? = nil, titleText: String? = nil, descriptionText: String? = nil, weather: Weather? = nil) {
-        if let dateCreated = dateCreated{
-            self.dateCreated = dateCreated
-        }
-        else{
-            self.dateCreated = Date()
-        }
+public class DiaryRecord: NSManagedObject {
+
+    convenience init(){
+        self.init(entity: CoreDataManager.instance.entityForName(entityName: "DiaryRecord"), insertInto: CoreDataManager.instance.managedObjectContext)
         
-        self.titleText = titleText
-        self.descriptionText = descriptionText
-        self.weather = weather
+        self.dateCreated = NSDate()
     }
     
     func getTitle() -> String{
@@ -48,14 +30,8 @@ class DiaryRecord{
         return getDateCreatedString()
     }
     
-    func fullDescription() -> String{
-        var result: String = ""
-        
-        result += getDateCreatedString()
-        result += getString(fromOptionalStringProperty: titleText)
-        result += getString(fromOptionalStringProperty: descriptionText)
-        
-        return result
+    func getWeatherIndex() -> Int{
+        return Int(weather)
     }
     
     /* Utility methods */
@@ -63,6 +39,7 @@ class DiaryRecord{
     private func getDateCreatedString() -> String{
         let calendar = Calendar.current
         let dateFormater = DateFormatter()
+        let dateCreated = self.dateCreated as! Date
         
         dateFormater.timeStyle = (Settings.instance.dateFormat == .dateAndTime) ? .short : .none
         
@@ -89,18 +66,5 @@ class DiaryRecord{
         
         return dateFormater.string(from: dateCreated)
     }
-    
-    private func getString(fromOptionalStringProperty stringProperty: String?) -> String{
-        if let stringProperty = stringProperty{
-            return stringProperty
-        }
-        
-        return ""
-    }
-}
 
-extension DiaryRecord: CustomStringConvertible{
-    var description: String{
-        return fullDescription()
-    }
 }

@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreData
 
 class DiaryRecordsViewController: UIViewController {
     
@@ -16,15 +17,19 @@ class DiaryRecordsViewController: UIViewController {
 
     }
     
-    var diaryModel: DiaryModel
-    
-    required init?(coder aDecoder: NSCoder){
-        diaryModel = DiaryModel()
-        super.init(coder: aDecoder)
-    }
+    var fetchedResultsController = CoreDataManager.instance.fetchedResultsController(entityName: "DiaryRecord", keyForSort: "dateCreated")
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        fetchedResultsController.delegate = self
+        
+        do {
+            try fetchedResultsController.performFetch()
+        }
+        catch {
+            print(error)
+        }
         
         diaryRecordsTable.dataSource = self
         diaryRecordsTable.delegate = self
@@ -42,9 +47,7 @@ class DiaryRecordsViewController: UIViewController {
             if let editDiaryRecordController = segue.destination as? EditDiaryRecordViewController{
                 if let cell = sender as? UITableViewCell{
                     if let indexPath = diaryRecordsTable.indexPath(for: cell){
-                        if let diaryRecord = diaryModel.getRecord(at: indexPath.item){
-                            editDiaryRecordController.diaryRecord = diaryRecord
-                        }
+                        editDiaryRecordController.diaryRecord = fetchedResultsController.object(at: indexPath)
                     }
                     
                 }
@@ -52,12 +55,11 @@ class DiaryRecordsViewController: UIViewController {
         }
         else if segue.identifier == "AddDiaryRecordSegue"{
             if let editDiaryRecordController = segue.destination as? EditDiaryRecordViewController{
-                let newRecord = diaryModel.newRecord()
-                editDiaryRecordController.diaryRecord = newRecord
+                let newDiaryRecord = DiaryRecord()
+                CoreDataManager.instance.saveContext()
+                
+                editDiaryRecordController.diaryRecord = newDiaryRecord
             }
-        }
-        else if segue.identifier == "SettingsSegue"{
-            print("SettingsSegue")
         }
     }
     
@@ -69,17 +71,21 @@ extension DiaryRecordsViewController: UITableViewDataSource{
         let cell = tableView.dequeueReusableCell(withIdentifier: "diaryRecordCell", for: indexPath)
         
         if let cell = cell as? RecordCell{
-            if let diaryRecord = diaryModel.getRecord(at: indexPath.item){
-                cell.setTitle(text: diaryRecord.getTitle())
-                cell.setDate(text: diaryRecord.getDateCreated())
-            }
+            let diaryRecord = fetchedResultsController.object(at: indexPath)
+            cell.setTitle(text: diaryRecord.getTitle())
+            cell.setDate(text: diaryRecord.getDateCreated())
         }
         
         return cell
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return diaryModel.recordsCount
+        if let sections = fetchedResultsController.sections{
+            return sections[section].numberOfObjects
+        }
+        else{
+            return 0
+        }
     }
 
 }
@@ -96,9 +102,52 @@ extension DiaryRecordsViewController: UITableViewDelegate{
     }
     
     func remove(_ action: UITableViewRowAction, _ indexPath: IndexPath){
-        print("Remove \(indexPath.item)")
-        if diaryModel.removeRecord(at: indexPath.item) != nil{
-            diaryRecordsTable.deleteRows(at: [indexPath], with: UITableViewRowAnimation.left)
+        let managedObject = fetchedResultsController.object(at: indexPath)
+        
+        CoreDataManager.instance.managedObjectContext.delete(managedObject)
+        CoreDataManager.instance.saveContext()
+    }
+}
+
+extension DiaryRecordsViewController: NSFetchedResultsControllerDelegate{
+    
+    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
+        
+        switch type {
+        case .insert:
+            if let indexPath = newIndexPath {
+                diaryRecordsTable.insertRows(at: [indexPath], with: .automatic)
+            }
+        case .update:
+            if let indexPath = indexPath {
+                let diaryRecord = fetchedResultsController.object(at: indexPath)
+                let cell = diaryRecordsTable.cellForRow(at: indexPath)
+                if let cell = cell as? RecordCell{
+                    cell.setTitle(text: diaryRecord.getTitle())
+                    cell.setDate(text: diaryRecord.getDateCreated())
+
+                }
+            }
+        case .move:
+            if let indexPath = indexPath {
+                diaryRecordsTable.deleteRows(at: [indexPath], with: .automatic)
+            }
+            if let newIndexPath = newIndexPath {
+                diaryRecordsTable.insertRows(at: [newIndexPath], with: .automatic)
+            }
+        case .delete:
+            if let indexPath = indexPath {
+                diaryRecordsTable.deleteRows(at: [indexPath], with: .automatic)
+            }
         }
     }
+    
+    func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        diaryRecordsTable.beginUpdates()
+    }
+    
+    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        diaryRecordsTable.endUpdates()
+    }
+    
 }
