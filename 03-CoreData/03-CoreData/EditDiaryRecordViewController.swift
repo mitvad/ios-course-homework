@@ -24,9 +24,17 @@ class EditDiaryRecordViewController: UIViewController {
         weather.selectedSegmentIndex = diaryRecord.getWeatherIndex()
         
         self.title = diaryRecord.getDateCreated()
+        
+        NotificationCenter.default.addObserver(forName: Notification.Name.UIApplicationWillTerminate, object: self, queue: nil, using: {(notification) in self.save()})
     }
     
     override func viewWillDisappear(_ animated: Bool) {
+        save()
+        
+        NotificationCenter.default.removeObserver(self)
+    }
+    
+    func save() {
         diaryRecord.titleText = titleText.text
         diaryRecord.descriptionText = descriptionText.text
         diaryRecord.weather = Int16(weather.selectedSegmentIndex)
