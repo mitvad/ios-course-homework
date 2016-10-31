@@ -30,8 +30,6 @@ class EditDiaryRecordViewController: UIViewController {
     
     override func viewWillDisappear(_ animated: Bool) {
         save()
-        
-        NotificationCenter.default.removeObserver(self)
     }
     
     func save() {
@@ -39,6 +37,10 @@ class EditDiaryRecordViewController: UIViewController {
         diaryRecord.descriptionText = descriptionText.text
         diaryRecord.weather = Int16(weather.selectedSegmentIndex)
         CoreDataManager.instance.saveContext()
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
     }
 
 }
