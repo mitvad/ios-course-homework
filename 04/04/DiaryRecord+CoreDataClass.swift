@@ -11,7 +11,48 @@ import CoreData
 
 
 public class DiaryRecord: NSManagedObject {
+    
+    var section: String{
+        let calendar = Calendar.current
+        let dateCreated = self.dateCreated as! Date
+        
+        if calendar.isDateInToday(dateCreated){
+            return "g1"
+        }
+        else{
+            let dateNow = Date()
 
+            let currentWeekDay = calendar.component(.weekday, from: dateNow) - 1
+            let firstWeekDay = Date(timeIntervalSinceNow: -Double(currentWeekDay * 24 * 3600))
+            if dateCreated >= calendar.startOfDay(for: firstWeekDay){
+                return "g2"
+            }
+            else{
+                let currentMonthDay = calendar.component(.day, from: dateNow) - 1
+                let firstMonthDay = Date(timeIntervalSinceNow: -Double(currentMonthDay * 24 * 3600))
+                if dateCreated >= calendar.startOfDay(for: firstMonthDay){
+                    return "g3"
+                }
+            }
+        }
+
+        
+        return "g4"
+    }
+    
+    var sectionTitle: String{
+        switch self.section {
+        case "g1":
+            return "Today"
+        case "g2":
+            return "This Week"
+        case "g3":
+            return "This Month"
+        default:
+            return "Earlier"
+        }
+    }
+    
     convenience init(){
         self.init(entity: CoreDataManager.instance.entityForName(entityName: "DiaryRecord"), insertInto: CoreDataManager.instance.managedObjectContext)
         

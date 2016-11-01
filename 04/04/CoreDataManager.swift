@@ -23,14 +23,18 @@ class CoreDataManager{
     
     func fetchedResultsController(entityName: String, keyForSort: String) -> NSFetchedResultsController<DiaryRecord> {
         let fetchRequest = NSFetchRequest<DiaryRecord>(entityName: entityName)
-        let sortDescriptor = NSSortDescriptor(key: keyForSort, ascending: false)
-        fetchRequest.sortDescriptors = [sortDescriptor]
-        let fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: CoreDataManager.instance.managedObjectContext, sectionNameKeyPath: nil, cacheName: nil)
+        
+        let sectionSortDescriptor = NSSortDescriptor(key: "section", ascending: false)
+        let rowsSortDescriptor = NSSortDescriptor(key: "dateCreated", ascending: false)
+        fetchRequest.sortDescriptors = [sectionSortDescriptor, rowsSortDescriptor]
+        
+        let fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: CoreDataManager.instance.managedObjectContext, sectionNameKeyPath: "section", cacheName: nil)
         return fetchedResultsController
     }
     
     lazy var persistentContainer: NSPersistentContainer = {
         let container = NSPersistentContainer(name: "DiaryCoreDataModel")
+        container.persistentStoreDescriptions[0].type = NSBinaryStoreType
         container.loadPersistentStores(completionHandler: { (storeDescription, error) in
             if let error = error as NSError? {
                 fatalError("Unresolved error \(error), \(error.userInfo)")

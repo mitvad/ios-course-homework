@@ -24,12 +24,7 @@ class DiaryRecordsViewController: UIViewController {
         
         fetchedResultsController.delegate = self
         
-        do {
-            try fetchedResultsController.performFetch()
-        }
-        catch {
-            print(error)
-        }
+        fetchData()
         
         diaryRecordsTable.dataSource = self
         diaryRecordsTable.delegate = self
@@ -38,8 +33,19 @@ class DiaryRecordsViewController: UIViewController {
         diaryRecordsTable.bounces = true
     }
     
+    func fetchData(){
+        do {
+            try fetchedResultsController.performFetch()
+        }
+        catch {
+            print(error)
+        }
+
+    }
+    
     override func viewWillAppear(_ animated: Bool) {
-        
+//        fetchData()
+        diaryRecordsTable.reloadData()
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -56,6 +62,7 @@ class DiaryRecordsViewController: UIViewController {
         else if segue.identifier == "AddDiaryRecordSegue"{
             if let editDiaryRecordController = segue.destination as? EditDiaryRecordViewController{
                 let newDiaryRecord = DiaryRecord()
+                newDiaryRecord.dateCreated = NSDate()
                 //CoreDataManager.instance.saveContext()
                 
                 editDiaryRecordController.diaryRecord = newDiaryRecord
@@ -82,6 +89,23 @@ extension DiaryRecordsViewController: UITableViewDataSource{
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if let sections = fetchedResultsController.sections{
             return sections[section].numberOfObjects
+        }
+        else{
+            return 0
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        if let sectionRecord = fetchedResultsController.sections?[section].objects?[0] as? DiaryRecord{
+            return sectionRecord.sectionTitle
+        }
+        
+        return ""
+    }
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        if let sections = fetchedResultsController.sections{
+            return sections.count
         }
         else{
             return 0
@@ -127,6 +151,7 @@ extension DiaryRecordsViewController: NSFetchedResultsControllerDelegate{
                     cell.setDate(text: diaryRecord.getDateCreated())
 
                 }
+//                diaryRecordsTable.reloadRows(at: [indexPath], with: .automatic)
             }
         case .move:
             if let indexPath = indexPath {

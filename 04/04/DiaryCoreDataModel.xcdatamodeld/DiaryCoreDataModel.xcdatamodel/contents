@@ -3,10 +3,11 @@
     <entity name="DiaryRecord" representedClassName=".DiaryRecord" syncable="YES">
         <attribute name="dateCreated" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="descriptionText" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="section" transient="YES" attributeType="String" defaultValueString="g0" syncable="YES"/>
         <attribute name="titleText" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="weather" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
     </entity>
     <elements>
-        <element name="DiaryRecord" positionX="-45" positionY="-36" width="128" height="105"/>
+        <element name="DiaryRecord" positionX="-45" positionY="-36" width="128" height="120"/>
     </elements>
 </model>

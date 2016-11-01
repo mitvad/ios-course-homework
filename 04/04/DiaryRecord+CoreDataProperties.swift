@@ -1,8 +1,8 @@
 //
 //  DiaryRecord+CoreDataProperties.swift
-//  03-CoreData
+//  04
 //
-//  Created by Vadym on 2710//16.
+//  Created by Vadym on 3110//16.
 //  Copyright © 2016 Vadym Mitin. All rights reserved.
 //
 
