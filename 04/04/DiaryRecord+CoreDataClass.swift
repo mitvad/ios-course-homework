@@ -12,45 +12,59 @@ import CoreData
 
 public class DiaryRecord: NSManagedObject {
     
-    var section: String{
+    enum Section: String{
+        case today = "g1"
+        case thisWeek = "g2"
+        case thisMonth = "g3"
+        case earlier = "Earlier"
+        
+        func title() -> String{
+            switch self {
+            case .today:
+                return "Today"
+            case .thisWeek:
+                return "This Week"
+            case .thisMonth:
+                return "This Month"
+            default:
+                return "Earlier"
+            }
+        }
+    }
+    
+    fileprivate func section() -> Section{
         let calendar = Calendar.current
         let dateCreated = self.dateCreated as! Date
         
         if calendar.isDateInToday(dateCreated){
-            return "g1"
+            return Section.today
         }
         else{
             let dateNow = Date()
-
+            
             let currentWeekDay = calendar.component(.weekday, from: dateNow) - 1
             let firstWeekDay = Date(timeIntervalSinceNow: -Double(currentWeekDay * 24 * 3600))
             if dateCreated >= calendar.startOfDay(for: firstWeekDay){
-                return "g2"
+                return Section.thisWeek
             }
             else{
                 let currentMonthDay = calendar.component(.day, from: dateNow) - 1
                 let firstMonthDay = Date(timeIntervalSinceNow: -Double(currentMonthDay * 24 * 3600))
                 if dateCreated >= calendar.startOfDay(for: firstMonthDay){
-                    return "g3"
+                    return Section.thisMonth
                 }
             }
         }
-
         
-        return "g4"
+        return Section.earlier
+    }
+    
+    var sectionId: String{
+        return self.section().rawValue
     }
     
     var sectionTitle: String{
-        switch self.section {
-        case "g1":
-            return "Today"
-        case "g2":
-            return "This Week"
-        case "g3":
-            return "This Month"
-        default:
-            return "Earlier"
-        }
+        return self.section().title()
     }
     
     convenience init(){

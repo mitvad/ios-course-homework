@@ -21,14 +21,14 @@ class CoreDataManager{
         return NSEntityDescription.entity(forEntityName: entityName, in: self.managedObjectContext)!
     }
     
-    func fetchedResultsController(entityName: String, keyForSort: String) -> NSFetchedResultsController<DiaryRecord> {
+    func fetchedResultsController(entityName: String, keyForSort: String, sectionNameKeyPath: String) -> NSFetchedResultsController<DiaryRecord> {
         let fetchRequest = NSFetchRequest<DiaryRecord>(entityName: entityName)
         
-        let sectionSortDescriptor = NSSortDescriptor(key: "section", ascending: false)
-        let rowsSortDescriptor = NSSortDescriptor(key: "dateCreated", ascending: false)
+        let sectionSortDescriptor = NSSortDescriptor(key: sectionNameKeyPath, ascending: false)
+        let rowsSortDescriptor = NSSortDescriptor(key: keyForSort, ascending: false)
         fetchRequest.sortDescriptors = [sectionSortDescriptor, rowsSortDescriptor]
         
-        let fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: CoreDataManager.instance.managedObjectContext, sectionNameKeyPath: "section", cacheName: nil)
+        let fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: CoreDataManager.instance.managedObjectContext, sectionNameKeyPath: sectionNameKeyPath, cacheName: nil)
         return fetchedResultsController
     }
     

@@ -17,7 +17,7 @@ class DiaryRecordsViewController: UIViewController {
 
     }
     
-    var fetchedResultsController = CoreDataManager.instance.fetchedResultsController(entityName: "DiaryRecord", keyForSort: "dateCreated")
+    var fetchedResultsController = CoreDataManager.instance.fetchedResultsController(entityName: "DiaryRecord", keyForSort: "dateCreated", sectionNameKeyPath: "sectionId")
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -72,6 +72,8 @@ class DiaryRecordsViewController: UIViewController {
     
 }
 
+// MARK: - extension UITableViewDataSource
+
 extension DiaryRecordsViewController: UITableViewDataSource{
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -114,6 +116,8 @@ extension DiaryRecordsViewController: UITableViewDataSource{
 
 }
 
+// MARK: - extension UITableViewDelegate
+
 extension DiaryRecordsViewController: UITableViewDelegate{
     
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
@@ -132,6 +136,8 @@ extension DiaryRecordsViewController: UITableViewDelegate{
         CoreDataManager.instance.saveContext()
     }
 }
+
+// MARK: - extension NSFetchedResultsControllerDelegate
 
 extension DiaryRecordsViewController: NSFetchedResultsControllerDelegate{
     
