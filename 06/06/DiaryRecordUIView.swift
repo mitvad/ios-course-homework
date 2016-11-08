@@ -140,8 +140,16 @@ class DiaryRecordUIView: UIView{
         let titleText = UILabel(frame: CGRect(x: textOffsetX, y: 0, width: titleView.bounds.width - textOffsetX * 2, height: titleView.bounds.height))
         titleText.textAlignment = .left
         
-        if let title = diaryRecord?.getTitle(){
-            titleText.text = title
+        if let diaryRecord = diaryRecord{
+            let title = diaryRecord.getTitle()
+            
+            if title != ""{
+                titleText.text = title
+            }
+            else
+            {
+                titleText.text = "  ...  "
+            }
         }
         else{
             titleText.text = "  ...  "

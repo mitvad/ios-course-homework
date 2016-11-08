@@ -11,31 +11,22 @@ import CoreData
 
 class TimelineViewController: UIViewController{
     
-    var myView: DiaryRecordUIView!
+    var recordsView: DiaryRecordsUIView!
     
     override func viewDidLoad() {
-        
+        recordsView = DiaryRecordsUIView(frame: CGRect(x: 0, y: 20, width: view.frame.width, height: view.frame.height))
+        view.addSubview(recordsView)
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        if myView != nil{
-            myView.removeFromSuperview()
-        }
+        recordsView.clearRecords()
         
         if let fetchedObjects = DiaryModel.instance.diaryFetchResultController.fetchedObjects{
-            if !fetchedObjects.isEmpty{
-                let diaryRecord = fetchedObjects[0]
-                myView = DiaryRecordUIView(diaryRecord: diaryRecord, showDate: true)
+            for diaryRecord in fetchedObjects{
+                let recordView = DiaryRecordUIView(diaryRecord: diaryRecord, showDate: true)
+                recordsView.addDiaryRecord(view: recordView)
             }
-            else{
-                myView = DiaryRecordUIView()
-            }
-        }
-        else{
-            myView = DiaryRecordUIView(frame: CGRect(x: 10, y: 250, width: 100, height: 40))
-        }
-        
-        view.addSubview(myView)
 
+        }
     }
 }
