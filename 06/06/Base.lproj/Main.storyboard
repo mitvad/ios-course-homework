@@ -476,7 +476,7 @@
         <image name="weather_sun" width="34" height="34"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="eNe-QP-a8B"/>
         <segue reference="lHo-dg-Ukz"/>
+        <segue reference="eNe-QP-a8B"/>
     </inferredMetricsTieBreakers>
 </document>

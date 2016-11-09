@@ -27,7 +27,7 @@ class DiaryModel{
         didSet{
             if weatherSelectedFilter != oldValue{
                 if let weatherSelectedFilter = weatherSelectedFilter{
-                    diaryFetchResultController.fetchRequest.predicate = NSPredicate(format: "weather == \(Int16(weatherSelectedFilter.rawValue))")
+                    diaryFetchResultController.fetchRequest.predicate = NSPredicate(format: "weatherId == \(Int16(weatherSelectedFilter.rawValue))")
                 }
                 else{
                     weatherLastSelectedFilter = oldValue
