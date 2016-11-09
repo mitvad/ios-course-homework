@@ -18,7 +18,7 @@ class TimelineViewController: UIViewController{
         view.addSubview(recordsView)
     }
     
-    override func viewWillAppear(_ animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         recordsView.clearRecords()
         
         if let fetchedObjects = DiaryModel.instance.diaryFetchResultController.fetchedObjects{

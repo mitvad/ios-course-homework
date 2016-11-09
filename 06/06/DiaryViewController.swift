@@ -21,8 +21,6 @@ class DiaryViewController: UIViewController{
     
     override func viewDidAppear(_ animated: Bool) {
         observer = NotificationCenter.default.addObserver(forName: Notification.Name.DiaryModelEditRecord, object: nil, queue: nil, using: {(notification) in self.showEditView()})
-        
-        DiaryModel.instance.weatherSelectedFilter = nil
     }
     
     override func viewDidDisappear(_ animated: Bool) {

@@ -23,8 +23,10 @@ class WeatherViewController: UIViewController{
         DiaryModel.instance.weatherSelectedFilter = DiaryModel.instance.weatherLastSelectedFilter
     }
     
-    override func viewDidDisappear(_ animated: Bool) {
+    override func viewWillDisappear(_ animated: Bool) {
         NotificationCenter.default.removeObserver(observer)
+        
+        DiaryModel.instance.weatherSelectedFilter = nil
     }
     
     override func viewDidLoad() {
