@@ -133,26 +133,28 @@ class DiaryRecordUIView: UIView{
         titleView.addSubview(titleText)
         
         if let title = title{
-            titleText.text = title
-            
-            let textBounds = titleText.textRect(forBounds: titleView.bounds, limitedToNumberOfLines: 1)
-            
-            var boundsWidth = textBounds.width
-            
-            if boundsWidth < blockHeight - textOffsetX * 2{
-                boundsWidth = blockHeight - textOffsetX * 2
+            if title != ""{
+                titleText.text = title
+                
+                let textBounds = titleText.textRect(forBounds: titleView.bounds, limitedToNumberOfLines: 1)
+                
+                var boundsWidth = textBounds.width
+                
+                if boundsWidth < blockHeight - textOffsetX * 2{
+                    boundsWidth = blockHeight - textOffsetX * 2
+                }
+                
+                titleView.frame = CGRect(
+                    x: weatherView.frame.origin.x + weatherView.frame.width + spaceBetweenBlocks,
+                    y: contentOffsetY,
+                    width: boundsWidth + textOffsetX * 2,
+                    height: blockHeight)
             }
-            
-            titleView.frame = CGRect(
-                x: weatherView.frame.origin.x + weatherView.frame.width + spaceBetweenBlocks,
-                y: contentOffsetY,
-                width: boundsWidth + textOffsetX * 2,
-                height: blockHeight)
         }
         
         addSubview(titleView)
         
-        if title == nil{
+        if title == nil || title == ""{
             titleView.isHidden = true
         }
     }
