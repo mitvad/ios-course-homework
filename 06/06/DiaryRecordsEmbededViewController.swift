@@ -17,6 +17,8 @@ class DiaryRecordsEmbededViewController: UIViewController {
 
     }
     
+    private var observer: Any!
+    
     var fetchedResultsController: NSFetchedResultsController<DiaryRecord>!
     
     override func viewDidLoad() {
@@ -24,18 +26,35 @@ class DiaryRecordsEmbededViewController: UIViewController {
         
         fetchedResultsController = DiaryModel.instance.diaryFetchResultController
         
-        fetchedResultsController.delegate = self
-                diaryRecordsTable.dataSource = self
-        diaryRecordsTable.delegate = self
-        
         diaryRecordsTable.tableFooterView = UIView()
         diaryRecordsTable.bounces = true
         
-        NotificationCenter.default.addObserver(forName: Notification.Name.DiaryModelFetchResultChanged, object: nil, queue: nil, using: {(notification) in self.diaryRecordsTable.reloadData()})
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        fetchedResultsController.delegate = nil
+        diaryRecordsTable.dataSource = nil
+        diaryRecordsTable.delegate = nil
+        
+        NotificationCenter.default.removeObserver(observer)
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        fetchedResultsController.delegate = self
+        diaryRecordsTable.dataSource = self
+        diaryRecordsTable.delegate = self
+        
         diaryRecordsTable.reloadData()
+        
+        observer = NotificationCenter.default.addObserver(forName: Notification.Name.DiaryModelFetchResultChanged, object: nil, queue: nil, using: {(notification) in self.diaryRecordsTable.reloadData()})
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -168,6 +187,17 @@ extension DiaryRecordsEmbededViewController: NSFetchedResultsControllerDelegate{
             if let indexPath = indexPath {
                 diaryRecordsTable.deleteRows(at: [indexPath], with: .automatic)
             }
+        }
+    }
+    
+    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange sectionInfo: NSFetchedResultsSectionInfo, atSectionIndex sectionIndex: Int, for type: NSFetchedResultsChangeType){
+        switch type {
+        case .insert:
+            diaryRecordsTable.insertSections(IndexSet([sectionIndex]), with: .automatic)
+        case .delete:
+            diaryRecordsTable.deleteSections(IndexSet([sectionIndex]), with: .automatic)
+        default:
+            break
         }
     }
     

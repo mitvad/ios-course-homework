@@ -25,12 +25,25 @@ class UIViewUtils{
         }
     }
     
-    static func shortDateString(date: Date) -> String{
-        let dateFormater = DateFormatter()
-        dateFormater.dateStyle = .short
-        dateFormater.timeStyle = .none
-        
-        return dateFormater.string(from: date)
+    static func shortDateString(date: NSDate?) -> String?{
+        if let date = date{
+            let calendar = Calendar.current
+            
+            var month = calendar.shortMonthSymbols[calendar.component(.month, from: date as Date) - 1]
+            month = month.uppercased()
+            
+            var day = String(calendar.component(.day, from: date as Date))
+            day = day.characters.count == 1 ? "0\(day)" : day
+            
+            return "\(month) \(day)"
+        }
+        else{
+            return nil
+        }
+    }
+    
+    static func isDayOfDate(_ date1: Date, equalTo date2: Date) -> Bool{
+        return Calendar.current.isDate(date1, equalTo: date2, toGranularity: .day)
     }
     
     static func weatherColor(weather: Weather) -> UIColor{
@@ -38,11 +51,11 @@ class UIViewUtils{
         case .sun:
             return UIColor.orange
         case .cloud:
-            return UIColor.lightGray
+            return UIColor.cyan
         case .rain:
-            return UIColor.darkGray
+            return UIColor.magenta
         case .storm:
-            return UIColor.black
+            return UIColor.brown
         case .snow:
             return UIColor.blue
         }

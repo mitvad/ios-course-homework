@@ -37,7 +37,7 @@ class EditDiaryRecordViewController: UIViewController {
         NotificationCenter.default.addObserver(forName: Notification.Name.UIApplicationWillTerminate, object: self, queue: nil, using: {(notification) in self.save()})
     }
     
-    override func viewWillDisappear(_ animated: Bool) {
+    override func viewDidDisappear(_ animated: Bool) {
         save()
     }
     

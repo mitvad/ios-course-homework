@@ -17,16 +17,26 @@ class WeatherViewController: UIViewController{
         DiaryModel.instance.weatherSelectedFilter = Weather(rawValue: sender.selectedSegmentIndex + 1)
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        observer = NotificationCenter.default.addObserver(forName: Notification.Name.DiaryModelEditRecord, object: nil, queue: nil, using: {(notification) in self.showEditView()})
+    override func viewWillAppear(_ animated: Bool) {
         
-        DiaryModel.instance.weatherSelectedFilter = DiaryModel.instance.weatherLastSelectedFilter
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         NotificationCenter.default.removeObserver(observer)
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        //
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        observer = NotificationCenter.default.addObserver(
+            forName: Notification.Name.DiaryModelEditRecord,
+            object: nil,
+            queue: nil,
+            using: {(notification) in self.showEditView()})
         
-        DiaryModel.instance.weatherSelectedFilter = nil
+        DiaryModel.instance.weatherSelectedFilter = DiaryModel.instance.weatherLastSelectedFilter
     }
     
     override func viewDidLoad() {
