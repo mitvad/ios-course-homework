@@ -26,6 +26,18 @@ class DiaryRecordsUIView: UIView{
         addSubview(view)
         
         views.append(view)
+        
+        if view.frame.origin.y < self.bounds.height{
+            view.alpha = 0
+            
+            UIView.animate(withDuration: (views.count <= 5) ? 0.3 - Double(views.count) * 0.04 : 0.0,
+                           delay: Double(views.count) * 0.05,
+                           options: [.beginFromCurrentState, .transitionCurlUp],
+                           animations: {
+                                view.alpha = 1
+                           },
+                           completion: nil)
+        }
     }
     
     func clearRecords(){
