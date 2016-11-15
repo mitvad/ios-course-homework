@@ -12,7 +12,6 @@
 		CD26FB141DD0EF2F00030471 /* TimelineViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD26FB131DD0EF2F00030471 /* TimelineViewController.swift */; };
 		CD26FB161DD0EFD500030471 /* DiaryRecordUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD26FB151DD0EFD500030471 /* DiaryRecordUIView.swift */; };
 		CD26FB1B1DD217F900030471 /* UIViewUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD26FB1A1DD217F900030471 /* UIViewUtils.swift */; };
-		CD26FB1D1DD22D4500030471 /* DiaryRecordsUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD26FB1C1DD22D4500030471 /* DiaryRecordsUIView.swift */; };
 		CD52EB3C1DC1034400AA7C85 /* DiaryCoreDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = CD52EB3A1DC1034400AA7C85 /* DiaryCoreDataModel.xcdatamodeld */; };
 		CD52EB471DC1065E00AA7C85 /* DiaryRecord+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD52EB451DC1065E00AA7C85 /* DiaryRecord+CoreDataClass.swift */; };
 		CD52EB481DC1065E00AA7C85 /* DiaryRecord+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD52EB461DC1065E00AA7C85 /* DiaryRecord+CoreDataProperties.swift */; };
@@ -38,7 +37,6 @@
 		CD26FB131DD0EF2F00030471 /* TimelineViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimelineViewController.swift; sourceTree = "<group>"; };
 		CD26FB151DD0EFD500030471 /* DiaryRecordUIView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiaryRecordUIView.swift; sourceTree = "<group>"; };
 		CD26FB1A1DD217F900030471 /* UIViewUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIViewUtils.swift; sourceTree = "<group>"; };
-		CD26FB1C1DD22D4500030471 /* DiaryRecordsUIView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiaryRecordsUIView.swift; sourceTree = "<group>"; };
 		CD52EB3B1DC1034400AA7C85 /* DiaryCoreDataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = DiaryCoreDataModel.xcdatamodel; sourceTree = "<group>"; };
 		CD52EB451DC1065E00AA7C85 /* DiaryRecord+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DiaryRecord+CoreDataClass.swift"; sourceTree = "<group>"; };
 		CD52EB461DC1065E00AA7C85 /* DiaryRecord+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DiaryRecord+CoreDataProperties.swift"; sourceTree = "<group>"; };
@@ -76,7 +74,6 @@
 			children = (
 				CD26FB131DD0EF2F00030471 /* TimelineViewController.swift */,
 				CD26FB151DD0EFD500030471 /* DiaryRecordUIView.swift */,
-				CD26FB1C1DD22D4500030471 /* DiaryRecordsUIView.swift */,
 			);
 			name = Timeline;
 			sourceTree = "<group>";
@@ -270,7 +267,6 @@
 				CD86D66B1DBBD61700318436 /* Settings.swift in Sources */,
 				CD26FB141DD0EF2F00030471 /* TimelineViewController.swift in Sources */,
 				CD52EB481DC1065E00AA7C85 /* DiaryRecord+CoreDataProperties.swift in Sources */,
-				CD26FB1D1DD22D4500030471 /* DiaryRecordsUIView.swift in Sources */,
 				CDE228411DCB90A5004FF2CF /* DiaryViewController.swift in Sources */,
 				CDBE80BD1DB7BCC200CFDFEB /* AppDelegate.swift in Sources */,
 				CD52EB6C1DC149CF00AA7C85 /* CoreDataManager.swift in Sources */,

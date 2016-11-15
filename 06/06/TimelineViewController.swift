@@ -11,9 +11,11 @@ import CoreData
 
 class TimelineViewController: UIViewController{
     
-    @IBOutlet weak var recordsView: DiaryRecordsUIView!
+    @IBOutlet weak var scrollView: UIScrollView!
     
     @IBOutlet weak var segmentedControl: UISegmentedControl!
+    
+    private var diaryViews: [DiaryRecordUIView] = []
     
     @IBAction func changeView(_ sender: UISegmentedControl) {
          showView()
@@ -35,7 +37,7 @@ class TimelineViewController: UIViewController{
     }
     
     private func showEventsView(){
-        recordsView.clearRecords()
+        clearRecords()
         
         if let fetchedObjects = DiaryModel.instance.diaryFetchResultController.fetchedObjects{
             for diaryRecord in fetchedObjects{
@@ -45,11 +47,12 @@ class TimelineViewController: UIViewController{
                           tint: UIViewUtils.weatherColor(weather: diaryRecord.weather))
             }
             
+            setScrollContentSize()
         }
     }
     
     private func showTimelineView(){
-        recordsView.clearRecords()
+        clearRecords()
         
         if let fetchedObjects = DiaryModel.instance.diaryFetchResultController.fetchedObjects{
             
@@ -87,6 +90,7 @@ class TimelineViewController: UIViewController{
                 previouseDiaryRecord = diaryRecord
             }
             
+            setScrollContentSize()
         }
     }
     
@@ -96,6 +100,35 @@ class TimelineViewController: UIViewController{
             weatherImage: weatherImage,
             title: title,
             tint: tint)
-        recordsView.addDiaryRecord(view: recordView)
+        
+        recordView.frame = CGRect(x: 0, y: diaryViews.count * 60, width: Int(scrollView.frame.width), height: 60)
+        scrollView.addSubview(recordView)
+        
+        diaryViews.append(recordView)
+        
+        if recordView.frame.origin.y < scrollView.bounds.height{
+            recordView.alpha = 0
+            
+            UIView.animate(withDuration: (diaryViews.count <= 5) ? 0.3 - Double(diaryViews.count) * 0.04 : 0.0,
+                           delay: Double(diaryViews.count) * 0.05,
+                           options: [.beginFromCurrentState, .transitionCurlUp],
+                           animations: {
+                            recordView.alpha = 1
+            },
+                           completion: nil)
+        }
+    }
+    
+    func clearRecords(){
+        for view in diaryViews{
+            view.removeFromSuperview()
+        }
+        
+        diaryViews = []
+    }
+    
+    func setScrollContentSize(){
+        scrollView.contentOffset = CGPoint(x: 0, y: 0)
+        scrollView.contentSize = CGSize(width: scrollView.frame.width, height: CGFloat(diaryViews.count * 60 + 60))
     }
 }
