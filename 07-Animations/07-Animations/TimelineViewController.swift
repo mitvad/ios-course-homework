@@ -21,6 +21,26 @@ class TimelineViewController: UIViewController{
          showView()
     }
     
+    @IBAction func addNewDiaryRecord(_ sender: UIBarButtonItem) {
+        let newDiaryRecord = DiaryRecord()
+        newDiaryRecord.dateCreated = NSDate()
+        
+        CoreDataManager.instance.saveContext()
+        
+        let recordView = DiaryRecordUIView(
+            date: UIViewUtils.shortDateString(date: newDiaryRecord.dateCreated),
+            weatherImage: UIViewUtils.weatherImage(weather: newDiaryRecord.weather),
+            title: newDiaryRecord.titleText,
+            tint: UIViewUtils.weatherColor(weather: newDiaryRecord.weather))
+        
+        recordView.frame = CGRect(x: 0, y: -100, width: Int(scrollView.frame.width), height: 60)
+        scrollView.addSubview(recordView)
+        
+        diaryViews.insert(recordView, at: 0)
+        
+        animateNewRecord(recordView)
+    }
+
     override func viewDidAppear(_ animated: Bool) {
         DiaryModel.instance.weatherSelectedFilter = nil
         
@@ -130,5 +150,35 @@ class TimelineViewController: UIViewController{
     func setScrollContentSize(){
         scrollView.contentOffset = CGPoint(x: 0, y: 0)
         scrollView.contentSize = CGSize(width: scrollView.frame.width, height: CGFloat(diaryViews.count * 60 + 60))
+    }
+    
+    func animateNewRecord(_ recordView: DiaryRecordUIView){
+        func showNewRecord(finished: Bool){
+            UIView.animate(withDuration: 1,
+                           delay: 0,
+                           usingSpringWithDamping: 0.3,
+                           initialSpringVelocity: 0.3,
+                           options: [.beginFromCurrentState],
+                           animations: {
+                            recordView.frame = CGRect(x: 0, y: 0, width: Int(self.scrollView.frame.width), height: 60)},
+                           completion: nil)
+        }
+        
+        func moveAllRecordsDown(finished: Bool){
+            UIView.animate(withDuration: 0.3,
+                           delay: 0,
+                           options: [.beginFromCurrentState, .transitionCurlUp],
+                           animations: {
+                            for index in 1..<self.diaryViews.count{
+                                self.diaryViews[index].frame = CGRect(x: 0, y: index * 60, width: Int(self.scrollView.frame.width), height: 60)
+                            }},
+                           completion: showNewRecord)
+        }
+        
+        UIView.animate(withDuration: (scrollView.contentOffset.y > 0) ? 0.2 : 0,
+                       delay: 0,
+                       options: [.beginFromCurrentState, .transitionCurlUp],
+                       animations: setScrollContentSize,
+                       completion: moveAllRecordsDown)
     }
 }

@@ -34,7 +34,7 @@
         <!--Diary-->
         <scene sceneID="iBI-MC-XSk">
             <objects>
-                <viewController id="uzv-p4-PKW" customClass="DiaryViewController" customModule="_6" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="uzv-p4-PKW" customClass="DiaryViewController" customModule="_7_Animations" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="xnw-ce-uj8"/>
                         <viewControllerLayoutGuide type="bottom" id="Xez-dU-DKb"/>
@@ -76,7 +76,7 @@
         <!--Weather View Controller-->
         <scene sceneID="vLN-g4-ZMx">
             <objects>
-                <viewController id="ift-OU-5hd" customClass="WeatherViewController" customModule="_6" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="ift-OU-5hd" customClass="WeatherViewController" customModule="_7_Animations" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="1jN-sS-wdI"/>
                         <viewControllerLayoutGuide type="bottom" id="t0b-hg-m8a"/>
@@ -128,7 +128,7 @@
         <!--Diary-->
         <scene sceneID="hL4-CH-66v">
             <objects>
-                <viewController id="pQk-6d-kGa" customClass="DiaryRecordsEmbededViewController" customModule="_6" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="pQk-6d-kGa" customClass="DiaryRecordsEmbededViewController" customModule="_7_Animations" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="akg-mh-63t"/>
                         <viewControllerLayoutGuide type="bottom" id="xXX-qG-Nik"/>
@@ -141,7 +141,7 @@
                                 <rect key="frame" x="1" y="0.0" width="373" height="570"/>
                                 <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="diaryRecordCell" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="diaryRecordCell" textLabel="3Aw-4H-Y9v" detailTextLabel="7bL-Bs-Sko" style="IBUITableViewCellStyleSubtitle" id="gfr-Ui-51d" customClass="RecordCell" customModule="_6" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="diaryRecordCell" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="diaryRecordCell" textLabel="3Aw-4H-Y9v" detailTextLabel="7bL-Bs-Sko" style="IBUITableViewCellStyleSubtitle" id="gfr-Ui-51d" customClass="RecordCell" customModule="_7_Animations" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="56" width="373" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="gfr-Ui-51d" id="VC9-zN-nYa">
@@ -194,7 +194,7 @@
         <!--Settings-->
         <scene sceneID="pjg-Zg-MaJ">
             <objects>
-                <viewController id="N9Y-kz-cjc" customClass="SettingsViewController" customModule="_6" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="N9Y-kz-cjc" customClass="SettingsViewController" customModule="_7_Animations" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="4kh-kk-eUN"/>
                         <viewControllerLayoutGuide type="bottom" id="Mqa-vF-h3k"/>
@@ -213,7 +213,7 @@
                                 <rect key="frame" x="0.0" y="66" width="375" height="560"/>
                                 <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="DateCell" textLabel="Apb-Vd-Wd8" style="IBUITableViewCellStyleDefault" id="QVz-uA-ypQ" customClass="DateCell" customModule="_6" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="DateCell" textLabel="Apb-Vd-Wd8" style="IBUITableViewCellStyleDefault" id="QVz-uA-ypQ" customClass="DateCell" customModule="_7_Animations" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="56" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="QVz-uA-ypQ" id="bSx-qq-8hA">
@@ -233,7 +233,7 @@
                                             <outlet property="title" destination="Apb-Vd-Wd8" id="HZ7-7e-JhV"/>
                                         </connections>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="SwitchCell" id="tr5-aF-LUM" customClass="SwitchCell" customModule="_6" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="SwitchCell" id="tr5-aF-LUM" customClass="SwitchCell" customModule="_7_Animations" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="100" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="tr5-aF-LUM" id="7n9-pR-M1u">
@@ -291,7 +291,7 @@
         <!--Timeline-->
         <scene sceneID="8Me-3E-WfH">
             <objects>
-                <viewController id="Q30-lb-UIt" customClass="TimelineViewController" customModule="_6" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="Q30-lb-UIt" customClass="TimelineViewController" customModule="_7_Animations" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="BsC-i1-92i"/>
                         <viewControllerLayoutGuide type="bottom" id="WIR-IC-CG6"/>
@@ -316,6 +316,11 @@
                                                 <action selector="changeView:" destination="Q30-lb-UIt" eventType="valueChanged" id="jId-GD-qjM"/>
                                             </connections>
                                         </segmentedControl>
+                                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="rsU-Fq-cRt">
+                                            <connections>
+                                                <action selector="addNewDiaryRecord:" destination="Q30-lb-UIt" id="5w5-Rb-kjY"/>
+                                            </connections>
+                                        </barButtonItem>
                                     </navigationItem>
                                 </items>
                             </navigationBar>
@@ -347,7 +352,7 @@
         <!--Edit Diary Record View Controller-->
         <scene sceneID="T7g-bz-qSZ">
             <objects>
-                <viewController id="KvS-M9-Tzu" customClass="EditDiaryRecordViewController" customModule="_6" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="KvS-M9-Tzu" customClass="EditDiaryRecordViewController" customModule="_7_Animations" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="mNC-o5-iYf"/>
                         <viewControllerLayoutGuide type="bottom" id="GRa-YU-8RO"/>
@@ -416,7 +421,7 @@
         <!--Pick Date View Controller-->
         <scene sceneID="eH2-Dw-JnQ">
             <objects>
-                <viewController id="pZx-KH-WyP" customClass="PickDateViewController" customModule="_6" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="pZx-KH-WyP" customClass="PickDateViewController" customModule="_7_Animations" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="t9m-Iy-15v"/>
                         <viewControllerLayoutGuide type="bottom" id="XVI-Cx-a5o"/>
